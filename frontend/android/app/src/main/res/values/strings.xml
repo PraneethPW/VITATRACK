@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">VitaTrack</string>
+    <string name="title_activity_main">VitaTrack</string>
+    <string name="package_name">com.vitatrack.app</string>
+    <string name="custom_url_scheme">com.vitatrack.app</string>
+</resources>

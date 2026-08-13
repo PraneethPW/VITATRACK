@@ -6,3 +6,10 @@ dist/
 coverage/
 *.log
 .DS_Store
+
+frontend/android/.gradle/
+frontend/android/build/
+frontend/android/app/build/
+frontend/android/local.properties
+frontend/android/captures/
+frontend/android/.idea/

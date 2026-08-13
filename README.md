@@ -24,9 +24,47 @@ The backend creates its tables automatically on startup. Nutrition calculations 
 
 ## Deploy
 
-- **Vercel:** import `frontend`; set `VITE_API_URL` to `https://your-railway-service.up.railway.app/api`.
+- **Vercel:** import `frontend`; set `VITE_API_URL` to `https://your-railway-service.up.railway.app/api`. The `base: './'` Vite setting keeps the Capacitor build happy without changing the web deployment.
 - **Railway:** import `backend`; set `DATABASE_URL`, `JWT_SECRET`, `CORS_ORIGIN`, and `OPENROUTER_API_KEY`. `OPENROUTER_MODEL` defaults to `openrouter/free`, which routes each request to an available free text model. To pin a model, use its OpenRouter ID with a `:free` suffix.
 
 ## Pages
 
 Landing, sign in, sign up, onboarding, overview, nutrition, weekly training, meal planner, steps, progress, and AI coach are separate protected routes.
+
+## Android wrapper
+
+The frontend is set up for Capacitor, so you can build and run Android from the same React app.
+
+From `frontend`:
+
+```bash
+npm install
+npm run build
+npx cap sync android
+npx cap run android
+```
+
+If you want Android Studio access, open `frontend/android` after the first sync.
+
+Keep `VITE_API_URL` pointed at the deployed Railway backend before you build the Android bundle.
+
+Recommended values:
+
+- `DATABASE_URL` - your Neon Postgres connection string
+- `JWT_SECRET` - a long random secret
+- `CORS_ORIGIN` - include both your Vercel site and Capacitor origins, for example:
+
+```bash
+https://your-vercel-app.vercel.app,capacitor://localhost,http://localhost:5173
+```
+
+- `OPENROUTER_API_KEY` - your OpenRouter key
+- `OPENROUTER_MODEL` - keep `openrouter/free` unless you want to pin a specific free model
+- `PORT` - Railway usually injects this automatically, so you normally leave it alone
+
+For the frontend build, set:
+
+```bash
+VITE_API_URL=https://your-railway-service.up.railway.app/api
+```
+

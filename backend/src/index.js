@@ -13,9 +13,24 @@ const db = new pg.Pool({
   ssl: process.env.DATABASE_URL?.includes('localhost') ? false : { rejectUnauthorized: false }
 });
 const secret = process.env.JWT_SECRET || 'dev-secret-change-me';
+const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim().replace(/\/$/, ''))
+  .filter(Boolean);
+const isLocalOrigin = (origin = '') => {
+  const normalized = origin.trim().replace(/\/$/, '');
+  return /^capacitor:\/\/localhost$/.test(normalized)
+    || /^https?:\/\/localhost(?::\d+)?$/.test(normalized)
+    || /^https?:\/\/127\.0\.0\.1(?::\d+)?$/.test(normalized);
+};
 
 app.use(cors({
-  origin: (process.env.CORS_ORIGIN || 'http://localhost:5173').split(','),
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true);
+    const normalized = origin.trim().replace(/\/$/, '');
+    if (allowedOrigins.includes(normalized) || isLocalOrigin(normalized)) return cb(null, true);
+    return cb(null, false);
+  },
   credentials: true
 }));
 app.use(express.json());
@@ -546,3 +561,4 @@ app.post('/api/coach', auth, async (req, res) => {
 app.get('/health', (_, res) => res.json({ ok: true }));
 
 app.listen(process.env.PORT || 4000, () => console.log('VitaTrack API ready'));
+

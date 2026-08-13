@@ -12,7 +12,7 @@ VitaTrack is a personalised fitness companion: users create a protected account,
 
 1. Create a Neon database and copy its connection string.
 2. In `backend`, copy `.env.example` to `.env`, then set `DATABASE_URL` and `JWT_SECRET`.
-3. In `frontend`, copy `.env.example` to `.env` and set `VITE_API_URL=http://localhost:4000/api`.
+3. In `frontend`, copy `.env.example` to `.env` for local web development, and copy `.env.android.example` to `.env.android` for the Android build.
 4. Install and run each project:
 
 ```bash
@@ -20,7 +20,7 @@ cd backend && npm install && npm run dev
 cd frontend && npm install && npm run dev
 ```
 
-The backend creates its tables automatically on startup. Nutrition calculations use Mifflinâ€“St Jeor BMR, activity multipliers and goal adjustments. They are educational estimates, not medical advice.
+The backend creates its tables automatically on startup. Nutrition calculations use Mifflin–St Jeor BMR, activity multipliers and goal adjustments. They are educational estimates, not medical advice.
 
 ## Deploy
 
@@ -31,18 +31,23 @@ The backend creates its tables automatically on startup. Nutrition calculations 
 
 Landing, sign in, sign up, onboarding, overview, nutrition, weekly training, meal planner, steps, progress, and AI coach are separate protected routes.
 
-## Android wrapper
+## Android env
 
-The frontend is set up for Capacitor, so you can build and run Android from the same React app.
+Capacitor uses the Vite `android` mode, so the Android bundle reads `frontend/.env.android` during build.
 
-From `frontend`:
+Use these commands from `frontend`:
 
 ```bash
-npm install
-npm run build
+npm run build:android
 npx cap sync android
 npx cap run android
 ```
+
+`frontend/.env.android` should point at your Railway backend, while `frontend/.env` can stay on localhost for regular web development.
+
+## Android wrapper
+
+The frontend is set up for Capacitor, so you can build and run Android from the same React app.
 
 If you want Android Studio access, open `frontend/android` after the first sync.
 
@@ -67,4 +72,3 @@ For the frontend build, set:
 ```bash
 VITE_API_URL=https://your-railway-service.up.railway.app/api
 ```
-

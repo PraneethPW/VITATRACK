@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:android": "vite build --mode android",
     "preview": "vite preview",
-    "cap:sync": "cap sync android",
-    "cap:run": "cap run android",
-    "cap:open": "cap open android"
+    "cap:sync": "npm run build:android && cap sync android",
+    "cap:run": "npm run build:android && cap sync android && cap run android",
+    "cap:open": "npm run build:android && cap sync android && cap open android"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.2",

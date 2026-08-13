@@ -13,3 +13,7 @@ frontend/android/app/build/
 frontend/android/local.properties
 frontend/android/captures/
 frontend/android/.idea/
+
+!frontend/.env.android.example
+frontend/.env.android
+
